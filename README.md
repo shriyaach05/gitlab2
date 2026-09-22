@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ferro Precision — Machined to run true</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101E2E;
+    --navy-deep:#0B1621;
+    --paper:#EFEAE0;
+    --paper-dim:#E6E0D2;
+    --ink:#16222E;
+    --ink-soft:#4A5A68;
+    --copper:#B8703C;
+    --copper-light:#D89A6A;
+    --line-on-paper: rgba(22,34,46,0.16);
+    --line-on-navy: rgba(216,154,106,0.22);
+    --grid-on-navy: rgba(216,154,106,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    line-height:1.08;
+    margin:0;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1140px; margin:0 auto; padding:0 28px;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  :focus-visible{outline:2px solid var(--copper); outline-offset:3px;}
+
+  /* ---------- header ---------- */
+  .site-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper); border-bottom:1px solid var(--line-on-paper);
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .logo{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem;
+    text-decoration:none; display:flex; align-items:center; gap:4px;
+    color:var(--ink);
+  }
+  .logo-mark{color:var(--copper); font-family:'IBM Plex Mono', monospace; font-size:1.05rem;}
+  .main-nav{display:flex; gap:32px;}
+  .main-nav a{
+    text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:0.86rem;
+    color:var(--ink-soft); border-bottom:1px solid transparent; padding-bottom:2px;
+    transition:color .15s, border-color .15s;
+  }
+  .main-nav a:hover{color:var(--copper); border-color:var(--copper);}
+  .header-actions{display:flex; gap:12px; align-items:center;}
+  .nav-toggle{display:none;}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:'IBM Plex Mono', monospace; font-size:0.85rem;
+    padding:11px 20px; text-decoration:none; display:inline-block;
+    border:1px solid var(--ink); border-radius:2px;
+    transition:transform .12s ease, background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .btn-solid{background:var(--copper); border-color:var(--copper); color:var(--paper);}
+  .btn-solid:hover{background:var(--ink); border-color:var(--ink);}
+  .btn-ghost{border-color:transparent; color:var(--ink-soft);}
+  .btn-ghost:hover{color:var(--copper);}
+  .btn-outline{border-color:var(--ink); color:var(--ink); background:transparent;}
+  .btn-outline:hover{border-color:var(--copper); color:var(--copper);}
+  .btn:active{transform:translateY(1px);}
+  .hero .btn-outline{border-color:var(--paper); color:var(--paper);}
+  .hero .btn-outline:hover{border-color:var(--copper-light); color:var(--copper-light);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      linear-gradient(var(--grid-on-navy) 1px, transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg, var(--grid-on-navy) 1px, transparent 1px) 0 0/40px 40px,
+      var(--navy);
+    color:var(--paper);
+    padding:76px 0 0;
+  }
+  .hero-inner{
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:center;
+    padding-bottom:64px;
+  }
+  .kicker{
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:var(--copper-light);
+    margin:0 0 18px; letter-spacing:0.01em;
+  }
+  .hero h1{font-size:clamp(2.3rem, 4.4vw, 3.6rem); color:var(--paper); max-width:11ch;}
+  .hero .lede{
+    color:#C6CFD8; max-width:46ch; margin:22px 0 32px; font-size:1.03rem;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+  .hero-figure svg{width:100%; height:auto; display:block;}
+  .draw-path{
+    stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw 2.1s ease forwards .2s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @media (prefers-reduced-motion: reduce){
+    .draw-path{ animation:none; stroke-dashoffset:0; }
+  }
+
+  .spec-row{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line-on-navy);
+  }
+  .spec-item{
+    padding:22px 24px; border-right:1px solid var(--line-on-navy);
+  }
+  .spec-item:last-child{border-right:none;}
+  .spec-num{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:500;
+    font-size:1.7rem; color:var(--copper-light); display:block;
+  }
+  .spec-label{
+    font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:#9BA9B6; margin-top:4px; display:block;
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:88px 0;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; margin-bottom:48px; border-bottom:1px solid var(--line-on-paper); padding-bottom:22px;
+  }
+  .section-head h2{font-size:clamp(1.7rem, 3vw, 2.3rem);}
+  .section-tag{
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:var(--copper);
+    white-space:nowrap;
+  }
+
+  /* ---------- process ---------- */
+  .process{background:var(--paper-dim);}
+  .process-steps{
+    list-style:none; margin:0; padding:0;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+  }
+  .process-steps li{
+    padding:0 22px 0 0; border-left:1px solid var(--line-on-paper);
+    padding-left:22px;
+  }
+  .process-steps li:first-child{border-left:none; padding-left:0;}
+  .step-no{
+    font-family:'IBM Plex Mono', monospace; color:var(--copper); font-size:0.95rem; display:block; margin-bottom:14px;
+  }
+  .process-steps h3{font-size:1.15rem; margin-bottom:10px;}
+  .process-steps p{color:var(--ink-soft); font-size:0.94rem; margin:0;}
+
+  /* ---------- tech panel (cards without rounded/shadow cliche) ---------- */
+  .tech-panel{
+    position:relative; border:1px solid var(--line-on-paper); padding:26px;
+  }
+  .tech-panel::before, .tech-panel::after,
+  .tech-panel .tick-br, .tech-panel .tick-bl{
+    content:""; position:absolute; width:11px; height:11px; pointer-events:none;
+  }
+  .tech-panel::before{ top:-1px; left:-1px; border-top:2px solid var(--copper); border-left:2px solid var(--copper); }
+  .tech-panel::after{ top:-1px; right:-1px; border-top:2px solid var(--copper); border-right:2px solid var(--copper); }
+  .tick-bl{ bottom:-1px; left:-1px; border-bottom:2px solid var(--copper); border-left:2px solid var(--copper); }
+  .tick-br{ bottom:-1px; right:-1px; border-bottom:2px solid var(--copper); border-right:2px solid var(--copper); }
+
+  /* ---------- products ---------- */
+  .product-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+  }
+  .product-name{font-size:1.25rem; margin-bottom:4px;}
+  .product-sub{color:var(--ink-soft); font-size:0.88rem; margin:0 0 18px;}
+  .spec-table{width:100%; border-collapse:collapse; font-family:'IBM Plex Mono', monospace; font-size:0.82rem; margin-bottom:20px;}
+  .spec-table tr{border-top:1px solid var(--line-on-paper);}
+  .spec-table tr:first-child{border-top:none;}
+  .spec-table td{padding:8px 0; color:var(--ink-soft);}
+  .spec-table td:last-child{text-align:right; color:var(--ink);}
+  .product-price{
+    font-family:'Fraunces', serif; font-style:italic; font-size:1.3rem; margin-bottom:16px; display:block;
+  }
+  .product-cta{
+    font-family:'IBM Plex Mono', monospace; font-size:0.8rem; text-decoration:none;
+    color:var(--copper); border-bottom:1px solid var(--copper); padding-bottom:2px;
+  }
+  .product-cta:hover{color:var(--ink); border-color:var(--ink);}
+
+  /* ---------- about / quote ---------- */
+  .about{
+    background:var(--navy); color:var(--paper);
+  }
+  .quote-wrap{
+    display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;
+  }
+  blockquote{
+    margin:0; font-family:'Fraunces', serif; font-size:clamp(1.4rem,2.4vw,1.9rem);
+    line-height:1.4; font-weight:500;
+  }
+  .quote-attr{
+    margin-top:22px; font-family:'IBM Plex Mono', monospace; font-size:0.84rem; color:var(--copper-light);
+  }
+  .about-figure{border:1px solid var(--line-on-navy); padding:28px;}
+  .about-figure p{color:#C6CFD8; font-size:0.94rem; margin:0 0 14px;}
+  .about-figure p:last-child{margin-bottom:0;}
+  .about-figure strong{color:var(--paper); font-weight:600;}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--navy-deep); color:#8FA0AD; padding:56px 0 28px;
+  }
+  .footer-top{
+    display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px;
+    padding-bottom:40px; border-bottom:1px solid var(--line-on-navy);
+  }
+  .footer-top h4{
+    font-family:'IBM Plex Mono', monospace; color:var(--copper-light); font-size:0.82rem;
+    margin:0 0 16px; font-weight:400;
+  }
+  .footer-top p{margin:0 0 8px; font-size:0.9rem;}
+  .footer-top a{text-decoration:none; color:#8FA0AD; display:block; margin-bottom:8px; font-size:0.9rem;}
+  .footer-top a:hover{color:var(--copper-light);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; padding-top:22px; font-family:'IBM Plex Mono', monospace; font-size:0.78rem;
+  }
+
+  @media (max-width: 860px){
+    .hero-inner{grid-template-columns:1fr;}
+    .hero-figure{order:-1;}
+    .spec-row{grid-template-columns:repeat(2,1fr);}
+    .spec-item:nth-child(2){border-right:none;}
+    .process-steps{grid-template-columns:1fr 1fr; row-gap:32px;}
+    .process-steps li:nth-child(3){border-left:none; padding-left:0;}
+    .product-grid{grid-template-columns:1fr;}
+    .quote-wrap{grid-template-columns:1fr;}
+    .footer-top{grid-template-columns:1fr; gap:28px;}
+    .main-nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="logo">Ferro<span class="logo-mark">⌀</span></a>
+    <nav class="main-nav">
+      <a href="#products">Products</a>
+      <a href="#process">Process</a>
+      <a href="#about">About</a>
+    </nav>
+    <div class="header-actions">
+      <a href="signin.html" class="btn btn-ghost">Sign in</a>
+      <a href="signup.html" class="btn btn-solid">Create account</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <p class="kicker">Barre, Vermont — machine shop est. 2013</p>
+      <h1>Every part machined<br>to run true.</h1>
+      <p class="lede">We cut titanium and stainless hubs, headsets and cranks to tolerances of ±0.003mm, then hand-finish and inspect each piece before it leaves the shop.</p>
+      <div class="hero-ctas">
+        <a href="#products" class="btn btn-solid">Shop components</a>
+        <a href="signup.html" class="btn btn-outline">Create an account</a>
+      </div>
+    </div>
+    <div class="hero-figure">
+      <svg viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="240" cy="200" r="150" stroke="#2A3B4D" stroke-width="1"/>
+        <circle class="draw-path" cx="240" cy="200" r="108" stroke="#D89A6A" stroke-width="1.4"/>
+        <circle class="draw-path" cx="240" cy="200" r="40" stroke="#D89A6A" stroke-width="1.4"/>
+        <circle cx="240" cy="200" r="8" fill="#D89A6A"/>
+        <g stroke="#3A4E62" stroke-width="1">
+          <line x1="240" y1="92" x2="240" y2="52"/>
+          <line x1="240" y1="308" x2="240" y2="348"/>
+          <line x1="348" y1="200" x2="388" y2="200"/>
+          <line x1="132" y1="200" x2="92" y2="200"/>
+        </g>
+        <g stroke="#D89A6A" stroke-width="1" stroke-dasharray="2 3">
+          <line x1="240" y1="200" x2="240" y2="60"/>
+          <line x1="240" y1="200" x2="380" y2="120"/>
+        </g>
+        <text x="244" y="55" fill="#C6CFD8" font-family="IBM Plex Mono, monospace" font-size="12">⌀ 108mm</text>
+        <text x="392" y="204" fill="#C6CFD8" font-family="IBM Plex Mono, monospace" font-size="12">flange face</text>
+        <text x="360" y="115" fill="#C6CFD8" font-family="IBM Plex Mono, monospace" font-size="12">±0.003mm</text>
+        <g stroke="#2A3B4D" stroke-width="1">
+          <line x1="60" y1="200" x2="90" y2="200"/>
+          <line x1="390" y1="200" x2="420" y2="200"/>
+          <line x1="240" y1="30" x2="240" y2="50"/>
+          <line x1="240" y1="350" x2="240" y2="380"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="spec-row wrap">
+    <div class="spec-item"><span class="spec-num">0.003mm</span><span class="spec-label">tightest tolerance held</span></div>
+    <div class="spec-item"><span class="spec-num">3</span><span class="spec-label">machinists on the floor</span></div>
+    <div class="spec-item"><span class="spec-num">11 yrs</span><span class="spec-label">in the same shop</span></div>
+    <div class="spec-item"><span class="spec-num">100%</span><span class="spec-label">parts hand-inspected</span></div>
+  </div>
+</section>
+
+<section id="process" class="process">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How a part gets made</h2>
+      <span class="section-tag">design → machine → finish → inspect</span>
+    </div>
+    <ol class="process-steps">
+      <li>
+        <span class="step-no mono">01</span>
+        <h3>Design</h3>
+        <p>We model each part in CAD against the load case it'll actually see, not a generic spec — a track hub and a touring hub start from different math.</p>
+      </li>
+      <li>
+        <span class="step-no mono">02</span>
+        <h3>Machine</h3>
+        <p>Billet titanium and stainless go on the lathes and mills. Every fixture is dialed in to ±0.003mm before the first cut is taken.</p>
+      </li>
+      <li>
+        <span class="step-no mono">03</span>
+        <h3>Finish</h3>
+        <p>Bead blast, polish, or hard anodize, done by hand so the surface texture is consistent from the first part in a batch to the last.</p>
+      </li>
+      <li>
+        <span class="step-no mono">04</span>
+        <h3>Inspect</h3>
+        <p>Every part is measured on a CMM against its drawing before it's boxed. Nothing ships on a sample check alone.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="products">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Current line</h2>
+      <span class="section-tag">3 components, made to order</span>
+    </div>
+    <div class="product-grid">
+
+      <div class="tech-panel">
+        <div class="tick-bl"></div><div class="tick-br"></div>
+        <h3 class="product-name">Trace Hub Set</h3>
+        <p class="product-sub">Front &amp; rear, straight-pull</p>
+        <table class="spec-table">
+          <tr><td>Material</td><td>Grade 5 titanium</td></tr>
+          <tr><td>Weight</td><td>212g / pair</td></tr>
+          <tr><td>Tolerance</td><td>±0.003mm</td></tr>
+          <tr><td>Bearings</td><td>Ceramic hybrid</td></tr>
+        </table>
+        <span class="product-price">$640</span>
+        <a href="signup.html" class="product-cta">Create an account to order →</a>
+      </div>
+
+      <div class="tech-panel">
+        <div class="tick-bl"></div><div class="tick-br"></div>
+        <h3 class="product-name">Datum Headset</h3>
+        <p class="product-sub">Integrated, 1 1/8" – 1.5"</p>
+        <table class="spec-table">
+          <tr><td>Material</td><td>7075 aluminum</td></tr>
+          <tr><td>Weight</td><td>74g</td></tr>
+          <tr><td>Tolerance</td><td>±0.005mm</td></tr>
+          <tr><td>Finish</td><td>Hard anodized</td></tr>
+        </table>
+        <span class="product-price">$185</span>
+        <a href="signup.html" class="product-cta">Create an account to order →</a>
+      </div>
+
+      <div class="tech-panel">
+        <div class="tick-bl"></div><div class="tick-br"></div>
+        <h3 class="product-name">Vector Crank</h3>
+        <p class="product-sub">In stock — ships in 3 days</p>
+        <table class="spec-table">
+          <tr><td>Material</td><td>Stainless 17-4</td></tr>
+          <tr><td>Weight</td><td>498g</td></tr>
+          <tr><td>Tolerance</td><td>±0.004mm</td></tr>
+          <tr><td>Bearings</td><td>Steel, sealed</td></tr>
+        </table>
+        <span class="product-price">$410</span>
+        <a href="signin.html" class="product-cta">Sign in to order →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="wrap quote-wrap">
+    <div>
+      <blockquote>"I've had a Ferro hub through four frames now. Never trued the flange, never heard a tick out of the bearing."</blockquote>
+      <p class="quote-attr">— Odile Marchetti, framebuilder, Marchetti Cycles</p>
+    </div>
+    <div class="about-figure">
+      <p><strong>Three people, one floor.</strong> Ferro is a three-person shop — two machinists and one person answering the phone. We don't run a second shift, and we don't outsource finishing.</p>
+      <p>Everything in the current line is designed, cut, and inspected under one roof in Barre, Vermont, in batches small enough that we still know which machinist ran which part.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <h4>Ferro Precision</h4>
+        <p>142 Foundry Row<br>Barre, VT 05641</p>
+        <p>hello@ferroprecision.example</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#products">Products</a>
+        <a href="#process">Process</a>
+        <a href="#about">About</a>
+      </div>
+      <div>
+        <h4>Account</h4>
+        <a href="signin.html">Sign in</a>
+        <a href="signup.html">Create account</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© 2026 Ferro Precision Co.</span>
+      <span>tolerance ±0.003mm, always</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
